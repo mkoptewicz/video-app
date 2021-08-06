@@ -1,6 +1,8 @@
 import AddVideo from "./components/AddVideo";
 import Header from "./components/Header";
 import VideosList from "./components/VideosList";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Container } from "react-bootstrap";
 const DUMMY_VIDEOS = [
   {
     id: 569581368,
@@ -20,17 +22,19 @@ const DUMMY_VIDEOS = [
     likeCount: 25,
     link: "https://www.youtube.com/watch?v=7lCDEYXw3mM",
     publishedAt: "2012-06-20T22:45:24.000Z",
-    imageUrl: "https://i.ytimg.com/vi/7lCDEYXw3mM/default.jpg",
+    imageUrl: "https://i.ytimg.com/vi/7lCDEYXw3mM/mqdefault.jpg",
   },
 ];
 function App() {
   return (
     <div className="App">
-      <Header />
-      <main>
-        <AddVideo />
-        <VideosList videos={DUMMY_VIDEOS} />
-      </main>
+      <Container>
+        <Header />
+        <main>
+          <AddVideo />
+          <VideosList videos={DUMMY_VIDEOS} />
+        </main>
+      </Container>
     </div>
   );
 }

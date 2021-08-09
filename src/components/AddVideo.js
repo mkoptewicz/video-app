@@ -1,6 +1,25 @@
+import { useRef } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 
-const AddVideo = () => {
+const AddVideo = ({ onAddVideo }) => {
+  const inputRef = useRef();
+
+  const addVideoHandler = () => {
+    //assuming YouTube video's id is always 11 characters long
+    const inputValue = inputRef.current.value;
+    if (!inputValue) {
+      return;
+    }
+    let id = inputValue;
+    if (
+      inputValue.startsWith("https://www.youtube.com/") ||
+      inputValue.startsWith("https://youtu.be")
+    ) {
+      id = inputValue.slice(-11);
+    }
+    console.log(id);
+    onAddVideo(id);
+  };
   return (
     <section>
       <Container>
@@ -11,7 +30,7 @@ const AddVideo = () => {
                 <Form.Label>
                   Paste the link or ID of the video you want to add
                 </Form.Label>
-                <Form.Control id="addVideo" type="text" />
+                <Form.Control type="text" ref={inputRef} />
               </Form.Group>
             </Col>
             <Col lg>
@@ -24,7 +43,7 @@ const AddVideo = () => {
               </Form.Group>
             </Col>
           </Row>
-          <Button size="lg" className="mb-3">
+          <Button size="lg" className="mb-3" onClick={addVideoHandler}>
             Dodaj video
           </Button>
         </Form>

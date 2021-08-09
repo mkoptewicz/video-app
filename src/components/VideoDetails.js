@@ -6,7 +6,7 @@ import Heart from "./icons/Heart";
 import Trash from "./icons/Trash";
 import formatNumber from "../lib/formatNumber";
 
-const VideoDetails = ({ video }) => {
+const VideoDetails = ({ video, onDelete }) => {
   const formatedViews = formatNumber(+video.viewCount);
   const formatedLikes = formatNumber(+video.likeCount);
   return (
@@ -20,8 +20,16 @@ const VideoDetails = ({ video }) => {
             <span> {formatedLikes}</span>
             <Views />
             <span> {formatedViews}</span>
-            <Heart />
-            <Trash />
+            <Button className="bg-white" variant="light">
+              <Heart />
+            </Button>
+            <Button
+              className="bg-white"
+              variant="light"
+              onClick={() => onDelete(video.id)}
+            >
+              <Trash />
+            </Button>
           </Card.Text>
 
           <Button variant="dark">Watch</Button>

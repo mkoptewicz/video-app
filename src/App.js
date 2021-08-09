@@ -77,6 +77,11 @@ function App() {
     setIsDuplicate(false);
   };
 
+  const deleteVideoHandler = id => {
+    const newVideos = addedVideos.filter(vid => vid.id !== id);
+    setAddedVideos(newVideos);
+  };
+
   return (
     <div className="App">
       <Container>
@@ -87,7 +92,7 @@ function App() {
             isDuplicate={isDuplicate}
             error={error}
           />
-          <VideosList videos={addedVideos} />
+          <VideosList videos={addedVideos} onDelete={deleteVideoHandler} />
         </main>
       </Container>
     </div>

@@ -4,8 +4,9 @@ import { Button, Form, Container, Row, Col } from "react-bootstrap";
 const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
   const inputRef = useRef();
 
-  const addVideoHandler = () => {
+  const addVideoHandler = e => {
     //assuming YouTube video's id is always 11 characters long
+    e.preventDefault();
     const inputValue = inputRef.current.value;
     if (!inputValue) {
       return;
@@ -23,7 +24,7 @@ const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
   return (
     <section>
       <Container>
-        <Form>
+        <Form onSubmit={addVideoHandler}>
           <Row>
             <Col lg>
               <Form.Group className="mb-3" controlId="formAddVideo">
@@ -52,7 +53,7 @@ const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
               </Form.Group>
             </Col>
           </Row>
-          <Button size="lg" className="mb-3" onClick={addVideoHandler}>
+          <Button type="submit" size="lg" className="mb-3">
             Dodaj video
           </Button>
         </Form>

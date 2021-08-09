@@ -12,7 +12,7 @@ const VideoDetails = ({ video, onDelete }) => {
   return (
     <Col xs="12" sm="6" md="4" lg="3">
       <Card className="mb-3 shadow">
-        <Card.Img src={video.imageUrl} />
+        <Card.Img src={video.imageUrl} alt="" />
         <Card.Body>
           <Card.Title className="text-ellipsis">{video.name}</Card.Title>
           <Card.Text className="d-flex justify-content-between align-items-center">

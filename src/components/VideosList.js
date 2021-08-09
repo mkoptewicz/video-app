@@ -5,7 +5,7 @@ const VideosList = ({ videos }) => {
   return (
     <section>
       <Container>
-        <Row>
+        <Row className="justify-content-center justify-content-md-start">
           {videos.map(video => (
             <VideoDetails key={video.id} video={video} />
           ))}

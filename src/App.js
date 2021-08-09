@@ -32,7 +32,6 @@ const DUMMY_VIDEOS = [
 const formatYouTubeData = data => {
   const { items } = data;
   const [videoData] = items;
-  console.log(videoData);
   return {
     id: videoData.id,
     type: "youtube",
@@ -48,25 +47,46 @@ const formatYouTubeData = data => {
 function App() {
   const [videoId, setVideoId] = useState("d1UD5UYUQ6c");
   const [addedVideos, setAddedVideos] = useState(DUMMY_VIDEOS);
+  const [isDuplicate, setIsDuplicate] = useState(false);
+  const [error, setError] = useState("");
 
   const fetchVideoHandler = async videoId => {
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`
-    );
-    const data = await response.json();
-    const formatedVideoData = formatYouTubeData(data);
-    setAddedVideos([...addedVideos, formatedVideoData]);
+    try {
+      setError("");
+      if (addedVideos.some(vid => vid.id === videoId)) {
+        setIsDuplicate(true);
+        return;
+      }
+
+      const response = await fetch(
+        `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`
+      );
+      const data = await response.json();
+      if (!response.ok || data.items.length === 0) {
+        throw new Error(
+          "We couldn't find the video. Make sure your link/Id is correct or try again later"
+        );
+      }
+
+      const formatedVideoData = formatYouTubeData(data);
+      setAddedVideos([...addedVideos, formatedVideoData]);
+    } catch (err) {
+      setError(err.message);
+    }
+
+    setIsDuplicate(false);
   };
 
-  // useEffect(() => {
-  //   fetchVideoHandler(videoId);
-  // }, [videoId]);
   return (
     <div className="App">
       <Container>
         <Header />
         <main>
-          <AddVideo onAddVideo={fetchVideoHandler} />
+          <AddVideo
+            onAddVideo={fetchVideoHandler}
+            isDuplicate={isDuplicate}
+            error={error}
+          />
           <VideosList videos={addedVideos} />
         </main>
       </Container>

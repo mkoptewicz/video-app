@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 
-const AddVideo = ({ onAddVideo }) => {
+const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
   const inputRef = useRef();
 
   const addVideoHandler = () => {
@@ -17,8 +17,8 @@ const AddVideo = ({ onAddVideo }) => {
     ) {
       id = inputValue.slice(-11);
     }
-    console.log(id);
     onAddVideo(id);
+    inputRef.current.value = "";
   };
   return (
     <section>
@@ -30,7 +30,16 @@ const AddVideo = ({ onAddVideo }) => {
                 <Form.Label>
                   Paste the link or ID of the video you want to add
                 </Form.Label>
+
                 <Form.Control type="text" ref={inputRef} />
+                {isDuplicate && (
+                  <p className="text-primary text-danger mt-3">
+                    You've already added this video!
+                  </p>
+                )}
+                {error && (
+                  <p className="text-primary text-danger mt-3">{error}</p>
+                )}
               </Form.Group>
             </Col>
             <Col lg>

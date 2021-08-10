@@ -20,13 +20,19 @@ const VideoDetails = ({ video, onDelete }) => {
             <span> {formatedLikes}</span>
             <Views />
             <span> {formatedViews}</span>
-            <Button className="bg-white" variant="light">
+            <Button
+              className="bg-white"
+              variant="light"
+              aria-label="Add to favourites"
+              aria-pressed={video.isFavourite}
+            >
               <Heart />
             </Button>
             <Button
               className="bg-white"
               variant="light"
               onClick={() => onDelete(video.id)}
+              aria-label="Delete video"
             >
               <Trash />
             </Button>

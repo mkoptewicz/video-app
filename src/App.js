@@ -4,7 +4,9 @@ import Header from "./components/Header";
 import VideosList from "./components/VideosList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
+import formatVideoData from "./lib/formatVideoData";
 const YOUTUBE_API_KEY = "AIzaSyAJE8etcZx5xXFvsR7vdWS8WY18UTrMP40";
+
 // const YOUTUBE_BASE_URL = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}`;
 const DUMMY_VIDEOS = [
   {
@@ -29,49 +31,41 @@ const DUMMY_VIDEOS = [
   },
 ];
 
-const formatYouTubeData = data => {
-  const { items } = data;
-  const [videoData] = items;
-  return {
-    id: videoData.id,
-    type: "youtube",
-    name: videoData.snippet.title,
-    viewCount: videoData.statistics.viewCount,
-    likeCount: videoData.statistics.likeCount,
-    link: `www.youtube.com/watch?v=${videoData.id}`,
-    publishedAt: videoData.snippet.publishedAt,
-    imageUrl: videoData.snippet.thumbnails.medium.url,
-  };
-};
-
 function App() {
-  const [videoId, setVideoId] = useState("d1UD5UYUQ6c");
   const [addedVideos, setAddedVideos] = useState(DUMMY_VIDEOS);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [error, setError] = useState("");
 
-  const fetchVideoHandler = async videoId => {
+  const addVideoHandler = async (videoId, videoType) => {
+    const endpoints = {
+      youtube: `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`,
+      vimeo: `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`,
+    };
     try {
       setError("");
-      if (addedVideos.some(vid => vid.id === videoId)) {
+
+      if (addedVideos.some(vid => vid.id === +videoId)) {
         setIsDuplicate(true);
         return;
       }
 
-      const response = await fetch(
-        `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`
-      );
+      const response = await fetch(`${endpoints[videoType]}`);
+
       const data = await response.json();
-      if (!response.ok || data.items.length === 0) {
+
+      if (!response.ok || data.items?.length === 0) {
         throw new Error(
           "We couldn't find the video. Make sure your link/Id is correct or try again later"
         );
       }
 
-      const formatedVideoData = formatYouTubeData(data);
+      const formatedVideoData = formatVideoData[videoType](data);
+
       setAddedVideos([...addedVideos, formatedVideoData]);
     } catch (err) {
-      setError(err.message);
+      setError(
+        "We couldn't find the video. Make sure your link/Id and site type is correct or try again later"
+      );
     }
 
     setIsDuplicate(false);
@@ -88,7 +82,7 @@ function App() {
         <Header />
         <main>
           <AddVideo
-            onAddVideo={fetchVideoHandler}
+            onAddVideo={addVideoHandler}
             isDuplicate={isDuplicate}
             error={error}
           />

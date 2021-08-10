@@ -1,24 +1,20 @@
 import { useRef } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import getIdFromInput from "../lib/getIdFromInput";
 
 const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
   const inputRef = useRef();
+  const videoTypeRef = useRef();
 
   const addVideoHandler = e => {
-    //assuming YouTube video's id is always 11 characters long
     e.preventDefault();
-    const inputValue = inputRef.current.value;
+    const inputValue = inputRef.current.value.trim();
     if (!inputValue) {
       return;
     }
-    let id = inputValue;
-    if (
-      inputValue.startsWith("https://www.youtube.com/") ||
-      inputValue.startsWith("https://youtu.be")
-    ) {
-      id = inputValue.slice(-11);
-    }
-    onAddVideo(id);
+    const videoType = videoTypeRef.current.value;
+    const id = getIdFromInput[videoType](inputValue);
+    onAddVideo(id, videoType);
     inputRef.current.value = "";
   };
   return (
@@ -28,14 +24,14 @@ const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
           <Row>
             <Col lg>
               <Form.Group className="mb-3" controlId="formAddVideo">
-                <Form.Label>
+                <Form.Label className="fw-bold">
                   Paste the link or ID of the video you want to add
                 </Form.Label>
 
                 <Form.Control type="text" ref={inputRef} />
                 {isDuplicate && (
                   <p className="text-primary text-danger mt-3">
-                    You've already added this video!
+                    Video is already in your collection
                   </p>
                 )}
                 {error && (
@@ -45,8 +41,8 @@ const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
             </Col>
             <Col lg>
               <Form.Group className="mb-3">
-                <Form.Label>My video is on:</Form.Label>
-                <Form.Select aria-label="Select the site">
+                <Form.Label className="fw-bold">My video is on:</Form.Label>
+                <Form.Select aria-label="Select the site" ref={videoTypeRef}>
                   <option value="youtube">YouTube</option>
                   <option value="vimeo">Vimeo</option>
                 </Form.Select>

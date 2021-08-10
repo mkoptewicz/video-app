@@ -18,6 +18,7 @@ const DUMMY_VIDEOS = [
     link: "https://vimeo.com/569581368",
     publishedAt: "2021-06-30T21:45:07+00:00",
     imageUrl: "https://i.vimeocdn.com/video/1178479211_295x166?r=pad",
+    isFavourite: false,
   },
   {
     id: "7lCDEYXw3mM",
@@ -28,6 +29,7 @@ const DUMMY_VIDEOS = [
     link: "https://www.youtube.com/watch?v=7lCDEYXw3mM",
     publishedAt: "2012-06-20T22:45:24.000Z",
     imageUrl: "https://i.ytimg.com/vi/7lCDEYXw3mM/mqdefault.jpg",
+    isFavourite: false,
   },
 ];
 
@@ -72,8 +74,19 @@ function App() {
   };
 
   const deleteVideoHandler = id => {
-    const newVideos = addedVideos.filter(vid => vid.id !== id);
-    setAddedVideos(newVideos);
+    const updatedVideos = addedVideos.filter(vid => vid.id !== id);
+    setAddedVideos(updatedVideos);
+  };
+
+  const toggleFavouriteHandler = id => {
+    const updatedVideos = addedVideos.map(vid => {
+      if (vid.id === id) {
+        vid.isFavourite = !vid.isFavourite;
+        return vid;
+      }
+      return vid;
+    });
+    setAddedVideos(updatedVideos);
   };
 
   return (
@@ -86,7 +99,11 @@ function App() {
             isDuplicate={isDuplicate}
             error={error}
           />
-          <VideosList videos={addedVideos} onDelete={deleteVideoHandler} />
+          <VideosList
+            videos={addedVideos}
+            onDelete={deleteVideoHandler}
+            onFavourite={toggleFavouriteHandler}
+          />
         </main>
       </Container>
     </div>

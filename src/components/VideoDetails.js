@@ -6,7 +6,7 @@ import Heart from "./icons/Heart";
 import Trash from "./icons/Trash";
 import formatNumber from "../lib/formatNumber";
 
-const VideoDetails = ({ video, onDelete }) => {
+const VideoDetails = ({ video, onDelete, onFavourite }) => {
   const formatedViews = formatNumber(+video.viewCount);
   const formatedLikes = formatNumber(+video.likeCount);
   return (
@@ -23,6 +23,7 @@ const VideoDetails = ({ video, onDelete }) => {
             <Button
               className="bg-white"
               variant="light"
+              onClick={() => onFavourite(video.id)}
               aria-label="Add to favourites"
               aria-pressed={video.isFavourite}
             >

@@ -4,7 +4,7 @@ import VideoDetails from "./VideoDetails";
 import List from "./icons/List";
 import Grid from "./icons/Grid";
 
-const VideosList = ({ videos, onDelete, onFavourite }) => {
+const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
   const [filterIsActive, setFilterIsActive] = useState(false);
 
   const filteredVideos = filterIsActive
@@ -34,7 +34,7 @@ const VideosList = ({ videos, onDelete, onFavourite }) => {
       <Container>
         {filterButton}
         <Button
-          onClick={() => setFilterIsActive(true)}
+          onClick={() => onDeleteAll()}
           variant="danger"
           className="mb-3 me-3"
         >

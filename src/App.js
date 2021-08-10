@@ -88,6 +88,9 @@ function App() {
     });
     setAddedVideos(updatedVideos);
   };
+  const deleteAllHandler = () => {
+    setAddedVideos([]);
+  };
 
   return (
     <div className="App">
@@ -99,11 +102,18 @@ function App() {
             isDuplicate={isDuplicate}
             error={error}
           />
-          <VideosList
-            videos={addedVideos}
-            onDelete={deleteVideoHandler}
-            onFavourite={toggleFavouriteHandler}
-          />
+          {addedVideos.length > 0 ? (
+            <VideosList
+              videos={addedVideos}
+              onDelete={deleteVideoHandler}
+              onFavourite={toggleFavouriteHandler}
+              onDeleteAll={deleteAllHandler}
+            />
+          ) : (
+            <p className="text-center fs-2 my-5">
+              Your video collection is empty. You can add your first video above
+            </p>
+          )}
         </main>
       </Container>
     </div>

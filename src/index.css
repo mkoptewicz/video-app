@@ -14,7 +14,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.bi-heart-fill:hover,
+button:hover .bi-heart-fill,
 [aria-pressed="true"] .bi-heart-fill {
   color: red;
 }

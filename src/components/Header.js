@@ -6,7 +6,7 @@ const Header = () => {
         <button>Log out</button>
       </div> */}
       <h1 className="m-4 display-3 text-center">
-        Keep all your favourites videos in one place!
+        Keep all your favourite videos in one place!
       </h1>
     </header>
   );

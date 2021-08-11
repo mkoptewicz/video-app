@@ -46,7 +46,7 @@ function App() {
     try {
       setError("");
 
-      if (addedVideos.some(vid => vid.id === +videoId)) {
+      if (addedVideos.some(vid => vid.id === videoId)) {
         setIsDuplicate(true);
         return;
       }

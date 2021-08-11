@@ -11,9 +11,9 @@ const getYouTubeId = input => {
 const getVimeoId = input => {
   if (input.includes("vimeo.com")) {
     const idStart = input.lastIndexOf("/") + 1;
-    return input.slice(idStart);
+    return +input.slice(idStart);
   }
-  return input;
+  return +input;
 };
 
 const getIdFromInput = {

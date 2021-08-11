@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Container, Row, Button } from "react-bootstrap";
-import VideoDetails from "./VideoDetails";
 import List from "./icons/List";
 import Grid from "./icons/Grid";
+import ListViewDetails from "./ListViewDetails";
+import GridViewDetails from "./GridViewDetails";
 
 const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
   const [filterIsActive, setFilterIsActive] = useState(false);
+  const [displayMode, setDisplayMode] = useState("grid");
 
   const toggleFilterHandler = () =>
     setFilterIsActive(filterIsActive => !filterIsActive);
@@ -14,23 +16,25 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
     ? videos.filter(vid => vid.isFavourite)
     : videos;
 
-  const filterButton = filterIsActive ? (
-    <Button
-      onClick={() => setFilterIsActive(false)}
-      variant="warning"
-      className="mb-3 me-3"
-    >
-      Show all
-    </Button>
-  ) : (
-    <Button
-      onClick={() => setFilterIsActive(true)}
-      variant="warning"
-      className="mb-3 me-3"
-    >
-      Show favourites
-    </Button>
-  );
+  const contentDisplayGrid = filteredVideos.map(video => (
+    <GridViewDetails
+      key={video.id}
+      video={video}
+      onDelete={onDelete}
+      onFavourite={onFavourite}
+      displayMode={displayMode}
+    />
+  ));
+
+  const contentDisplayList = filteredVideos.map(video => (
+    <ListViewDetails
+      key={video.id}
+      video={video}
+      onDelete={onDelete}
+      onFavourite={onFavourite}
+      displayMode={displayMode}
+    />
+  ));
 
   return (
     <section>
@@ -51,32 +55,26 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
         </Button>
         <div>
           <Button
-            onClick={() => {}}
+            onClick={() => setDisplayMode("list")}
             variant="secondary"
             className="mb-3 me-3"
             aria-label="display videos as list"
+            aria-pressed={displayMode === "list"}
           >
             <List />
           </Button>
           <Button
-            onClick={() => {}}
+            onClick={() => setDisplayMode("grid")}
             variant="secondary"
             className="mb-3"
             aria-label="display videos as grid"
+            aria-pressed={displayMode === "grid"}
           >
             <Grid />
           </Button>
         </div>
-
-        <Row className="justify-content-center justify-content-md-start">
-          {filteredVideos.map(video => (
-            <VideoDetails
-              key={video.id}
-              video={video}
-              onDelete={onDelete}
-              onFavourite={onFavourite}
-            />
-          ))}
+        <Row>
+          {displayMode === "grid" ? contentDisplayGrid : contentDisplayList}
         </Row>
       </Container>
     </section>

@@ -16,7 +16,7 @@ const DUMMY_VIDEOS = [
     viewCount: 10,
     likeCount: 2,
     link: "https://vimeo.com/569581368",
-    publishedAt: "2021-06-30T21:45:07+00:00",
+    publishedAt: Date.parse("2021-06-30T21:45:07+00:00"),
     imageUrl: "https://i.vimeocdn.com/video/1178479211_295x166?r=pad",
     isFavourite: false,
   },
@@ -27,7 +27,7 @@ const DUMMY_VIDEOS = [
     viewCount: 3057,
     likeCount: 25,
     link: "https://www.youtube.com/watch?v=7lCDEYXw3mM",
-    publishedAt: "2012-06-20T22:45:24.000Z",
+    publishedAt: Date.parse("2012-06-20T22:45:24.000Z"),
     imageUrl: "https://i.ytimg.com/vi/7lCDEYXw3mM/mqdefault.jpg",
     isFavourite: false,
   },
@@ -91,6 +91,7 @@ function App() {
   const deleteAllHandler = () => {
     setAddedVideos([]);
   };
+
 
   return (
     <div className="App">

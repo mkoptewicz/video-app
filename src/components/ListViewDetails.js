@@ -5,10 +5,13 @@ import Views from "./icons/Views";
 import Heart from "./icons/Heart";
 import Trash from "./icons/Trash";
 import formatNumber from "../lib/formatNumber";
+import getDateFromTimestamp from "../lib/getDateFromTimestamp";
 
 const ListViewDetails = ({ video, onDelete, onFavourite }) => {
   const formatedViews = formatNumber(+video.viewCount);
   const formatedLikes = formatNumber(+video.likeCount);
+  const publishingDate = getDateFromTimestamp(video.publishedAt);
+
   return (
     <Card className="text-center">
       <Card.Body>
@@ -43,7 +46,7 @@ const ListViewDetails = ({ video, onDelete, onFavourite }) => {
           <Button variant="dark">Watch</Button>
         </Card.Text>
       </Card.Body>
-      <Card.Footer className="text-muted">2 days ago</Card.Footer>
+      <Card.Footer className="text-muted">Added: {publishingDate}</Card.Footer>
     </Card>
   );
 };

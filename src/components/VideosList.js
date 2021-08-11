@@ -7,6 +7,9 @@ import Grid from "./icons/Grid";
 const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
   const [filterIsActive, setFilterIsActive] = useState(false);
 
+  const toggleFilterHandler = () =>
+    setFilterIsActive(filterIsActive => !filterIsActive);
+
   const filteredVideos = filterIsActive
     ? videos.filter(vid => vid.isFavourite)
     : videos;
@@ -32,7 +35,13 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
   return (
     <section>
       <Container>
-        {filterButton}
+        <Button
+          onClick={toggleFilterHandler}
+          variant="warning"
+          className="mb-3 me-3"
+        >
+          {filterIsActive ? "Show all" : "Show favourites"}
+        </Button>
         <Button
           onClick={() => onDeleteAll()}
           variant="danger"

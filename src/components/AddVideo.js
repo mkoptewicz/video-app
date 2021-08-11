@@ -23,7 +23,11 @@ const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
         <Form onSubmit={addVideoHandler}>
           <Row>
             <Col lg>
-              <Form.Group className="mb-3" controlId="formAddVideo">
+              <Form.Group
+                className="mb-3"
+                controlId="formAddVideo"
+                aria-live="polite"
+              >
                 <Form.Label className="fw-bold">
                   Paste the link or ID of the video you want to add
                 </Form.Label>
@@ -50,7 +54,7 @@ const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
             </Col>
           </Row>
           <Button type="submit" size="lg" className="mb-3">
-            Dodaj video
+            Add video
           </Button>
         </Form>
       </Container>

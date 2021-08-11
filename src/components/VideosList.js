@@ -1,13 +1,14 @@
-import { useState } from "react";
-import { Container, Row, Button } from "react-bootstrap";
+import { useState, useRef } from "react";
+import { Container, Row, Button, Col, Form } from "react-bootstrap";
 import List from "./icons/List";
 import Grid from "./icons/Grid";
 import ListViewDetails from "./ListViewDetails";
 import GridViewDetails from "./GridViewDetails";
 
-const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
+const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort }) => {
   const [filterIsActive, setFilterIsActive] = useState(false);
   const [displayMode, setDisplayMode] = useState("grid");
+  const sortRef = useRef();
 
   const toggleFilterHandler = () =>
     setFilterIsActive(filterIsActive => !filterIsActive);
@@ -66,18 +67,40 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
           <Button
             onClick={() => setDisplayMode("grid")}
             variant="secondary"
-            className="mb-3"
+            className="mb-3 me-3"
             aria-label="display videos as grid"
             aria-pressed={displayMode === "grid"}
           >
             <Grid />
           </Button>
         </div>
-        {filteredVideos.length === 0 && (
-          <p className="text-center fs-2 my-5">
-            You haven't added any videos to favourites yet.
-          </p>
-        )}
+        <Col xs="4">
+          <Form.Group
+            className="mb-3"
+            onChange={() => onSort(sortRef.current.value)}
+          >
+            <Form.Label className="fw-bold">Sort:</Form.Label>
+            <Form.Select aria-label="sort by" ref={sortRef}>
+              <option value="">Select sorting mode</option>
+              <option value="uploadOldestFirst">
+                Upload date (oldest first)
+              </option>
+              <option value="uploadNewestFirst">
+                Upload date (newest first)
+              </option>
+              <option value="addOldestFirst">Added date (oldest first)</option>
+              <option value="addNewestFirst">Added date (newest first)</option>
+            </Form.Select>
+          </Form.Group>
+        </Col>
+        <div aria-live="polite">
+          {filteredVideos.length === 0 && videos.length > 0 && (
+            <p className="text-center fs-2 my-5">
+              You haven't added any videos to favourites yet.
+            </p>
+          )}
+        </div>
+
         <Row>
           {displayMode === "grid" ? contentDisplayGrid : contentDisplayList}
         </Row>

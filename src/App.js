@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AddVideo from "./components/AddVideo";
 import Header from "./components/Header";
 import VideosList from "./components/VideosList";
@@ -19,6 +19,7 @@ const DUMMY_VIDEOS = [
     publishedAt: Date.parse("2021-06-30T21:45:07+00:00"),
     imageUrl: "https://i.vimeocdn.com/video/1178479211_295x166?r=pad",
     isFavourite: false,
+    addedAt: 1628600000000,
   },
   {
     id: "7lCDEYXw3mM",
@@ -30,6 +31,7 @@ const DUMMY_VIDEOS = [
     publishedAt: Date.parse("2012-06-20T22:45:24.000Z"),
     imageUrl: "https://i.ytimg.com/vi/7lCDEYXw3mM/mqdefault.jpg",
     isFavourite: false,
+    addedAt: 1628500000000,
   },
 ];
 
@@ -63,7 +65,10 @@ function App() {
 
       const formatedVideoData = formatVideoData[videoType](data);
 
-      setAddedVideos([...addedVideos, formatedVideoData]);
+      setAddedVideos([
+        ...addedVideos,
+        { ...formatedVideoData, addedAt: Date.now() },
+      ]);
     } catch (err) {
       setError(
         "We couldn't find the video. Make sure your link/Id and site type is correct or try again later"
@@ -91,7 +96,30 @@ function App() {
   const deleteAllHandler = () => {
     setAddedVideos([]);
   };
-
+  const sortHandler = mode => {
+    let sortedVideos;
+    switch (mode) {
+      case "uploadOldestFirst":
+        sortedVideos = [...addedVideos].sort(
+          (a, b) => a.publishedAt - b.publishedAt
+        );
+        break;
+      case "uploadNewestFirst":
+        sortedVideos = [...addedVideos].sort(
+          (a, b) => b.publishedAt - a.publishedAt
+        );
+        break;
+      case "addOldestFirst":
+        sortedVideos = [...addedVideos].sort((a, b) => a.addedAt - b.addedAt);
+        break;
+      case "addNewestFirst":
+        sortedVideos = [...addedVideos].sort((a, b) => b.addedAt - a.addedAt);
+        break;
+      default:
+        sortedVideos = addedVideos;
+    }
+    setAddedVideos(sortedVideos);
+  };
 
   return (
     <div className="App">
@@ -103,18 +131,22 @@ function App() {
             isDuplicate={isDuplicate}
             error={error}
           />
-          {addedVideos.length > 0 ? (
-            <VideosList
-              videos={addedVideos}
-              onDelete={deleteVideoHandler}
-              onFavourite={toggleFavouriteHandler}
-              onDeleteAll={deleteAllHandler}
-            />
-          ) : (
-            <p className="text-center fs-2 my-5">
-              Your video collection is empty. You can add your first video above
-            </p>
-          )}
+
+          <VideosList
+            videos={addedVideos}
+            onDelete={deleteVideoHandler}
+            onFavourite={toggleFavouriteHandler}
+            onDeleteAll={deleteAllHandler}
+            onSort={sortHandler}
+          />
+          <div aria-live="polite">
+            {addedVideos.length === 0 && (
+              <p className="text-center fs-2 my-5">
+                Your video collection is empty. You can add your first video
+                above
+              </p>
+            )}
+          </div>
         </main>
       </Container>
     </div>

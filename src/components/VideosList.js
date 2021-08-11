@@ -73,6 +73,11 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll }) => {
             <Grid />
           </Button>
         </div>
+        {filteredVideos.length === 0 && (
+          <p className="text-center fs-2 my-5">
+            You haven't added any videos to favourites yet.
+          </p>
+        )}
         <Row>
           {displayMode === "grid" ? contentDisplayGrid : contentDisplayList}
         </Row>

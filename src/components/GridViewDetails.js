@@ -7,7 +7,6 @@ import Heart from "./icons/Heart";
 import Trash from "./icons/Trash";
 import VideoModal from "./VideoModal";
 import formatNumber from "../lib/formatNumber";
-import getDateFromTimestamp from "../lib/getDateFromTimestamp";
 import GetDateFromTimestamp from "../lib/getDateFromTimestamp";
 
 const GridViewDetails = ({ video, onDelete, onFavourite }) => {
@@ -18,14 +17,18 @@ const GridViewDetails = ({ video, onDelete, onFavourite }) => {
 
   const formatedViews = formatNumber(+video.viewCount);
   const formatedLikes = formatNumber(+video.likeCount);
-  const publishingDate = getDateFromTimestamp(video.publishedAt);
   const addedDate = GetDateFromTimestamp(video.addedAt);
 
   return (
     <>
       <Col xs="12" sm="6" md="4" lg="3">
         <Card className="mb-3 shadow">
-          <Card.Img src={video.imageUrl} alt="" onClick={showHandler} style={{cursor:"pointer"}} />
+          <Card.Img
+            src={video.imageUrl}
+            alt=""
+            onClick={showHandler}
+            style={{ cursor: "pointer" }}
+          />
           <Card.Body>
             <Card.Title className="text-ellipsis">{video.name}</Card.Title>
             <Card.Text className="d-flex justify-content-between align-items-center">

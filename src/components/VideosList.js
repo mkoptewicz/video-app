@@ -74,7 +74,7 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort }) => {
             <Grid />
           </Button>
         </div>
-        <Col xs="4">
+        <Col xs="12" sm="8" md="4">
           <Form.Group
             className="mb-3"
             onChange={() => onSort(sortRef.current.value)}

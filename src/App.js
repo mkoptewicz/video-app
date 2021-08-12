@@ -57,13 +57,12 @@ function App() {
 
       const response = await fetch(`${endpoints[videoType]}`);
 
-      const data = await response.json();
-
-      if (!response.ok || data.items?.length === 0) {
+      if (!response.ok) {
         throw new Error(
           "We couldn't find the video. Make sure your link/Id is correct or try again later"
         );
       }
+      const data = await response.json();
 
       const formatedVideoData = formatVideoData[videoType](data);
 

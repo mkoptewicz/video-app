@@ -5,8 +5,15 @@ import Grid from "./icons/Grid";
 import ListViewDetails from "./ListViewDetails";
 import GridViewDetails from "./GridViewDetails";
 
-const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort, onFilter, filterIsActive }) => {
-
+const VideosList = ({
+  videos,
+  onDelete,
+  onFavourite,
+  onDeleteAll,
+  onSort,
+  onFilter,
+  filterIsActive,
+}) => {
   const [displayMode, setDisplayMode] = useState("grid");
   const sortRef = useRef();
 
@@ -35,11 +42,7 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort, onFilt
   return (
     <section>
       <Container>
-        <Button
-          onClick={onFilter}
-          variant="warning"
-          className="mb-3 me-3"
-        >
+        <Button onClick={onFilter} variant="warning" className="mb-3 me-3">
           {filterIsActive ? "Show all" : "Show favourites"}
         </Button>
         <Button

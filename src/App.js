@@ -17,8 +17,13 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [videosPerPage, setVideosPerPage] = useState(8);
 
+  const filteredVideos = filterIsActive
+    ? addedVideos.filter(vid => vid.isFavourite)
+    : addedVideos;
+
   useEffect(() => {
     const videos = JSON.parse(localStorage.getItem("addedVideos")) || [];
+    console.log("effect runs");
     setAddedVideos(videos);
   }, []);
 
@@ -65,8 +70,18 @@ function App() {
   };
 
   const deleteVideoHandler = id => {
+    const isLast = id === addedVideos[addedVideos.length - 1].id;
+    const isOnlyOneOnPage = isLast && addedVideos.length % videosPerPage === 1;
+    const isLastFavorite = id === filteredVideos[filteredVideos.length - 1].id;
+    const isOnlyOneOnFilteredPage =
+      isLastFavorite && filteredVideos.length % videosPerPage === 1;
+
     const updatedVideos = addedVideos.filter(vid => vid.id !== id);
     setAddedVideos(updatedVideos);
+
+    if (currentPage > 1 && (isOnlyOneOnPage || isOnlyOneOnFilteredPage)) {
+      setCurrentPage(prevPage => prevPage - 1);
+    }
   };
 
   const toggleFavouriteHandler = id => {
@@ -79,8 +94,11 @@ function App() {
     });
     setAddedVideos(updatedVideos);
   };
-  const toggleFilterHandler = () =>
+
+  const toggleFilterHandler = () => {
     setFilterIsActive(filterIsActive => !filterIsActive);
+    setCurrentPage(1);
+  };
 
   const deleteAllHandler = () => {
     setAddedVideos([]);
@@ -112,10 +130,6 @@ function App() {
   };
 
   const loadDemoHandler = () => setAddedVideos(demoVideos);
-
-  const filteredVideos = filterIsActive
-    ? addedVideos.filter(vid => vid.isFavourite)
-    : addedVideos;
 
   //Pagination
   const indexOfLastVideo = currentPage * videosPerPage;

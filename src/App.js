@@ -6,36 +6,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import formatVideoData from "./lib/formatVideoData";
 import VideoPagination from "./components/VideoPagination";
+import demoVideos from "./data/demoVideos";
 const YOUTUBE_API_KEY = "AIzaSyAJE8etcZx5xXFvsR7vdWS8WY18UTrMP40";
-
-const DUMMY_VIDEOS = [
-  {
-    id: 569581368,
-    type: "vimeo",
-    name: "Starring Paul Muni - Criterion Channel Teaser",
-    viewCount: 10,
-    likeCount: 2,
-    link: "https://vimeo.com/569581368",
-    embedLink: "https://player.vimeo.com/video/569581368",
-    publishedAt: Date.parse("2021-06-30T21:45:07+00:00"),
-    imageUrl: "https://i.vimeocdn.com/video/1178479211_295x166?r=pad",
-    isFavourite: false,
-    addedAt: 1628600000000,
-  },
-  {
-    id: "7lCDEYXw3mM",
-    type: "youtube",
-    name: "Google I/O 101: Q&A On Using Google APIs",
-    viewCount: 3057,
-    likeCount: 25,
-    link: "https://www.youtube.com/watch?v=7lCDEYXw3mM",
-    embedLink: "https://www.youtube.com/embed/7lCDEYXw3mM",
-    publishedAt: Date.parse("2012-06-20T22:45:24.000Z"),
-    imageUrl: "https://i.ytimg.com/vi/7lCDEYXw3mM/mqdefault.jpg",
-    isFavourite: false,
-    addedAt: 1628500000000,
-  },
-];
 
 function App() {
   const [addedVideos, setAddedVideos] = useState([]);
@@ -45,12 +17,14 @@ function App() {
   const [videosPerPage, setVideosPerPage] = useState(8);
 
   useEffect(() => {
-    const videos = JSON.parse(localStorage.getItem("addedVideos"));
+    const videos = JSON.parse(localStorage.getItem("addedVideos")) || [];
     setAddedVideos(videos);
   }, []);
+
   useEffect(() => {
     localStorage.setItem("addedVideos", JSON.stringify(addedVideos));
   }, [addedVideos]);
+
   const addVideoHandler = async (videoId, videoType) => {
     const endpoints = {
       youtube: `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`,
@@ -133,6 +107,8 @@ function App() {
     }
     setAddedVideos(sortedVideos);
   };
+
+  const loadDemoHandler = () => setAddedVideos(demoVideos);
   //Pagination
   const indexOfLastVideo = currentPage * videosPerPage;
   const indexOfFirstVideo = indexOfLastVideo - videosPerPage;
@@ -148,6 +124,7 @@ function App() {
         <main>
           <AddVideo
             onAddVideo={addVideoHandler}
+            onLoadDemo={loadDemoHandler}
             isDuplicate={isDuplicate}
             error={error}
           />

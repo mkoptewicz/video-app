@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import getIdFromInput from "../lib/getIdFromInput";
 
-const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
+const AddVideo = ({ onAddVideo, onLoadDemo, isDuplicate, error }) => {
   const inputRef = useRef();
   const videoTypeRef = useRef();
 
@@ -55,6 +55,15 @@ const AddVideo = ({ onAddVideo, isDuplicate, error }) => {
           </Row>
           <Button type="submit" size="lg" className="mb-3">
             Add video
+          </Button>
+          <Button
+            onClick={onLoadDemo}
+            type="button"
+            variant="success"
+            size="lg"
+            className="mb-3 ms-3"
+          >
+            Load demo videos
           </Button>
         </Form>
       </Container>

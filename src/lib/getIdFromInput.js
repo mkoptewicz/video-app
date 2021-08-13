@@ -1,12 +1,6 @@
 const getYouTubeId = input => {
-  //assuming YouTube video's id is always 11 characters long
-  if (
-    input.startsWith("https://www.youtube.com/") ||
-    input.startsWith("https://youtu.be")
-  ) {
-    return input.slice(-11);
-  }
-  return input;
+  input = input.split(/(vi\/|v%3D|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+  return undefined !== input[2] ? input[2].split(/[^0-9a-z_\-]/i)[0] : input[0];
 };
 const getVimeoId = input => {
   if (input.includes("vimeo.com")) {

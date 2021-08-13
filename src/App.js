@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddVideo from "./components/AddVideo";
 import Header from "./components/Header";
 import VideosList from "./components/VideosList";
@@ -8,7 +8,6 @@ import formatVideoData from "./lib/formatVideoData";
 import VideoPagination from "./components/VideoPagination";
 const YOUTUBE_API_KEY = "AIzaSyAJE8etcZx5xXFvsR7vdWS8WY18UTrMP40";
 
-// const YOUTUBE_BASE_URL = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}`;
 const DUMMY_VIDEOS = [
   {
     id: 569581368,
@@ -39,12 +38,19 @@ const DUMMY_VIDEOS = [
 ];
 
 function App() {
-  const [addedVideos, setAddedVideos] = useState(DUMMY_VIDEOS);
+  const [addedVideos, setAddedVideos] = useState([]);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [videosPerPage, setVideosPerPage] = useState(2);
+  const [videosPerPage, setVideosPerPage] = useState(8);
 
+  useEffect(() => {
+    const videos = JSON.parse(localStorage.getItem("addedVideos"));
+    setAddedVideos(videos);
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("addedVideos", JSON.stringify(addedVideos));
+  }, [addedVideos]);
   const addVideoHandler = async (videoId, videoType) => {
     const endpoints = {
       youtube: `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`,
@@ -69,10 +75,11 @@ function App() {
 
       const formatedVideoData = formatVideoData[videoType](data);
 
-      setAddedVideos([
+      const updatedVideos = [
         { ...formatedVideoData, addedAt: Date.now() },
         ...addedVideos,
-      ]);
+      ];
+      setAddedVideos(updatedVideos);
     } catch (err) {
       setError(
         "We couldn't find the video. Make sure your link/Id and site type is correct or try again later"

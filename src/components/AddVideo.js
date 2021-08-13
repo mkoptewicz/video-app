@@ -53,7 +53,7 @@ const AddVideo = ({ onAddVideo, onLoadDemo, isDuplicate, error }) => {
               </Form.Group>
             </Col>
           </Row>
-          <Button type="submit" size="lg" className="mb-3">
+          <Button type="submit" size="lg" className="mb-3 me-3">
             Add video
           </Button>
           <Button
@@ -61,7 +61,7 @@ const AddVideo = ({ onAddVideo, onLoadDemo, isDuplicate, error }) => {
             type="button"
             variant="success"
             size="lg"
-            className="mb-3 ms-3"
+            className="mb-3"
           >
             Load demo videos
           </Button>

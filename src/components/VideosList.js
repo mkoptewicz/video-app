@@ -5,13 +5,10 @@ import Grid from "./icons/Grid";
 import ListViewDetails from "./ListViewDetails";
 import GridViewDetails from "./GridViewDetails";
 
-const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort }) => {
-  const [filterIsActive, setFilterIsActive] = useState(false);
+const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort, onFilter, filterIsActive }) => {
+
   const [displayMode, setDisplayMode] = useState("grid");
   const sortRef = useRef();
-
-  const toggleFilterHandler = () =>
-    setFilterIsActive(filterIsActive => !filterIsActive);
 
   const filteredVideos = filterIsActive
     ? videos.filter(vid => vid.isFavourite)
@@ -23,7 +20,6 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort }) => {
       video={video}
       onDelete={onDelete}
       onFavourite={onFavourite}
-      displayMode={displayMode}
     />
   ));
 
@@ -33,7 +29,6 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort }) => {
       video={video}
       onDelete={onDelete}
       onFavourite={onFavourite}
-      displayMode={displayMode}
     />
   ));
 
@@ -41,7 +36,7 @@ const VideosList = ({ videos, onDelete, onFavourite, onDeleteAll, onSort }) => {
     <section>
       <Container>
         <Button
-          onClick={toggleFilterHandler}
+          onClick={onFilter}
           variant="warning"
           className="mb-3 me-3"
         >

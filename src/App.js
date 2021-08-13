@@ -12,6 +12,7 @@ const YOUTUBE_API_KEY = "AIzaSyAJE8etcZx5xXFvsR7vdWS8WY18UTrMP40";
 function App() {
   const [addedVideos, setAddedVideos] = useState([]);
   const [isDuplicate, setIsDuplicate] = useState(false);
+  const [filterIsActive, setFilterIsActive] = useState(false);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [videosPerPage, setVideosPerPage] = useState(8);
@@ -78,6 +79,8 @@ function App() {
     });
     setAddedVideos(updatedVideos);
   };
+  const toggleFilterHandler = () =>
+    setFilterIsActive(filterIsActive => !filterIsActive);
 
   const deleteAllHandler = () => {
     setAddedVideos([]);
@@ -109,10 +112,18 @@ function App() {
   };
 
   const loadDemoHandler = () => setAddedVideos(demoVideos);
+
+  const filteredVideos = filterIsActive
+    ? addedVideos.filter(vid => vid.isFavourite)
+    : addedVideos;
+
   //Pagination
   const indexOfLastVideo = currentPage * videosPerPage;
   const indexOfFirstVideo = indexOfLastVideo - videosPerPage;
-  const currentVideos = addedVideos.slice(indexOfFirstVideo, indexOfLastVideo);
+  const currentVideos = filteredVideos.slice(
+    indexOfFirstVideo,
+    indexOfLastVideo
+  );
 
   const paginateHandler = number => setCurrentPage(number);
   const videosPerPageHandler = number => setVideosPerPage(number);
@@ -136,6 +147,8 @@ function App() {
             onDeleteAll={deleteAllHandler}
             onSort={sortHandler}
             onVideosPerPage={videosPerPageHandler}
+            onFilter={toggleFilterHandler}
+            filterIsActive={filterIsActive}
           />
           <div aria-live="polite">
             {addedVideos.length === 0 && (
@@ -148,7 +161,7 @@ function App() {
         </main>
         <VideoPagination
           videosPerPage={videosPerPage}
-          totalVideos={addedVideos.length}
+          totalVideos={filteredVideos.length}
           currentPage={currentPage}
           onPaginate={paginateHandler}
         />

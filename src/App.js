@@ -5,6 +5,7 @@ import VideosList from "./components/VideosList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import formatVideoData from "./lib/formatVideoData";
+import VideoPagination from "./components/VideoPagination";
 const YOUTUBE_API_KEY = "AIzaSyAJE8etcZx5xXFvsR7vdWS8WY18UTrMP40";
 
 // const YOUTUBE_BASE_URL = `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}`;
@@ -41,6 +42,8 @@ function App() {
   const [addedVideos, setAddedVideos] = useState(DUMMY_VIDEOS);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [videosPerPage, setVideosPerPage] = useState(2);
 
   const addVideoHandler = async (videoId, videoType) => {
     const endpoints = {
@@ -94,9 +97,11 @@ function App() {
     });
     setAddedVideos(updatedVideos);
   };
+
   const deleteAllHandler = () => {
     setAddedVideos([]);
   };
+
   const sortHandler = mode => {
     let sortedVideos;
     switch (mode) {
@@ -121,9 +126,16 @@ function App() {
     }
     setAddedVideos(sortedVideos);
   };
+  //Pagination
+  const indexOfLastVideo = currentPage * videosPerPage;
+  const indexOfFirstVideo = indexOfLastVideo - videosPerPage;
+  const currentVideos = addedVideos.slice(indexOfFirstVideo, indexOfLastVideo);
+
+  const paginateHandler = number => setCurrentPage(number);
+  const videosPerPageHandler = number => setVideosPerPage(number);
 
   return (
-    <div className="App">
+    <>
       <Container>
         <Header />
         <main>
@@ -134,11 +146,12 @@ function App() {
           />
 
           <VideosList
-            videos={addedVideos}
+            videos={currentVideos}
             onDelete={deleteVideoHandler}
             onFavourite={toggleFavouriteHandler}
             onDeleteAll={deleteAllHandler}
             onSort={sortHandler}
+            onVideosPerPage={videosPerPageHandler}
           />
           <div aria-live="polite">
             {addedVideos.length === 0 && (
@@ -149,8 +162,14 @@ function App() {
             )}
           </div>
         </main>
+        <VideoPagination
+          videosPerPage={videosPerPage}
+          totalVideos={addedVideos.length}
+          currentPage={currentPage}
+          onPaginate={paginateHandler}
+        />
       </Container>
-    </div>
+    </>
   );
 }
 

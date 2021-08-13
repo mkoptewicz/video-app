@@ -159,12 +159,14 @@ function App() {
             )}
           </div>
         </main>
-        <VideoPagination
-          videosPerPage={videosPerPage}
-          totalVideos={filteredVideos.length}
-          currentPage={currentPage}
-          onPaginate={paginateHandler}
-        />
+        {filteredVideos.length > videosPerPage && (
+          <VideoPagination
+            videosPerPage={videosPerPage}
+            totalVideos={filteredVideos.length}
+            currentPage={currentPage}
+            onPaginate={paginateHandler}
+          />
+        )}
       </Container>
     </>
   );

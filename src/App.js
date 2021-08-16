@@ -7,7 +7,6 @@ import { Container } from "react-bootstrap";
 import formatVideoData from "./lib/formatVideoData";
 import VideoPagination from "./components/VideoPagination";
 import demoVideos from "./data/demoVideos";
-const YOUTUBE_API_KEY = "AIzaSyAJE8etcZx5xXFvsR7vdWS8WY18UTrMP40";
 
 function App() {
   const [addedVideos, setAddedVideos] = useState([]);
@@ -23,7 +22,6 @@ function App() {
 
   useEffect(() => {
     const videos = JSON.parse(localStorage.getItem("addedVideos")) || [];
-    console.log("effect runs");
     setAddedVideos(videos);
   }, []);
 
@@ -32,10 +30,12 @@ function App() {
   }, [addedVideos]);
 
   const addVideoHandler = async (videoId, videoType) => {
+    
     const endpoints = {
-      youtube: `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`,
+      youtube: `/.netlify/functions/youtube?id=${videoId}`,
       vimeo: `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`,
     };
+
     try {
       setError("");
 
@@ -45,6 +45,7 @@ function App() {
       }
 
       const response = await fetch(`${endpoints[videoType]}`);
+      console.log(response);
 
       if (!response.ok) {
         throw new Error(
@@ -52,7 +53,6 @@ function App() {
         );
       }
       const data = await response.json();
-
       const formatedVideoData = formatVideoData[videoType](data);
 
       const updatedVideos = [

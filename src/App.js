@@ -32,7 +32,6 @@ function App() {
   const addVideoHandler = async (videoId, videoType) => {
     const endpoints = {
       youtube: `/.netlify/functions/youtube?id=${videoId}`,
-      // youtube: `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${process.env.YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`,
       vimeo: `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`,
     };
 

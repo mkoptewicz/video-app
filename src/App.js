@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
+
 import AddVideo from "./components/AddVideo";
 import Header from "./components/Header";
 import VideosList from "./components/VideosList";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Container } from "react-bootstrap";
-import formatVideoData from "./lib/formatVideoData";
 import VideoPagination from "./components/UI/VideoPagination";
+
+import formatVideoData from "./lib/formatVideoData";
 import demoVideos from "./data/demoVideos";
-import Loader from "./components/UI/Loader";
+
+import { Container } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [addedVideos, setAddedVideos] = useState([]);
@@ -16,7 +18,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [videosPerPage, setVideosPerPage] = useState(8);
+  const [videosPerPage, setVideosPerPage] = useState(3);
 
   const filteredVideos = filterIsActive
     ? addedVideos.filter(vid => vid.isFavourite)
@@ -67,6 +69,7 @@ function App() {
         "We couldn't find the video. Make sure your link/Id and site type is correct or try again later"
       );
     }
+    setCurrentPage(1);
     setIsLoading(false);
     setIsDuplicate(false);
   };

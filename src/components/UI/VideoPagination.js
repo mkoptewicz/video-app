@@ -6,10 +6,24 @@ const VideoPagination = ({
   currentPage,
   onPaginate,
 }) => {
-  const pageNumbers = [];
+  let pageNumbers = [];
   const lastPage = Math.ceil(totalVideos / videosPerPage);
-  for (let i = 1; i <= lastPage; i++) {
-    pageNumbers.push(i);
+
+  // << < [1] 2 3 > >>
+  if (currentPage === 1) {
+    pageNumbers = [1, 2, 3];
+  }
+  // << < [1] 2 > >>
+  if (lastPage === 2) {
+    pageNumbers = [lastPage - 1, lastPage];
+  }
+  // << < 4 5 [6] > >>
+  if (lastPage !== 2 && currentPage === lastPage) {
+    pageNumbers = [lastPage - 2, lastPage - 1, lastPage];
+  }
+  // << < 3 [4] 5 > >>
+  if (currentPage > 1 && currentPage !== lastPage) {
+    pageNumbers = [currentPage - 1, currentPage, currentPage + 1];
   }
 
   return (
@@ -28,6 +42,7 @@ const VideoPagination = ({
           {number}
         </Pagination.Item>
       ))}
+
       <Pagination.Next
         disabled={currentPage === lastPage}
         onClick={() => onPaginate(currentPage + 1)}

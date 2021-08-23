@@ -1,5 +1,5 @@
 import { Modal, Button } from "react-bootstrap";
-import EmbedVideo from "./EmbedVideo";
+import EmbedVideo from "../EmbedVideo";
 
 const VideoModal = ({ show, onHide, embedLink, title }) => {
   return (

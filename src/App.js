@@ -5,13 +5,15 @@ import VideosList from "./components/VideosList";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import formatVideoData from "./lib/formatVideoData";
-import VideoPagination from "./components/VideoPagination";
+import VideoPagination from "./components/UI/VideoPagination";
 import demoVideos from "./data/demoVideos";
+import Loader from "./components/UI/Loader";
 
 function App() {
   const [addedVideos, setAddedVideos] = useState([]);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [filterIsActive, setFilterIsActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [videosPerPage, setVideosPerPage] = useState(8);
@@ -149,7 +151,7 @@ function App() {
             isDuplicate={isDuplicate}
             error={error}
           />
-
+          
           <VideosList
             videos={currentVideos}
             onDelete={deleteVideoHandler}

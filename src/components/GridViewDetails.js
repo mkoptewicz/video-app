@@ -5,7 +5,7 @@ import ThumbUp from "./icons/Thumb-up";
 import Views from "./icons/Views";
 import Heart from "./icons/Heart";
 import Trash from "./icons/Trash";
-import VideoModal from "./VideoModal";
+import VideoModal from "./UI/VideoModal";
 import formatNumber from "../lib/formatNumber";
 import GetDateFromTimestamp from "../lib/getDateFromTimestamp";
 

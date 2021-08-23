@@ -8,12 +8,16 @@ const AddVideo = ({ onAddVideo, onLoadDemo, isDuplicate, error }) => {
 
   const addVideoHandler = e => {
     e.preventDefault();
+
     const inputValue = inputRef.current.value.trim();
+
     if (!inputValue) {
       return;
     }
+
     const videoType = videoTypeRef.current.value;
     const id = getIdFromInput[videoType](inputValue);
+    
     onAddVideo(id, videoType);
     inputRef.current.value = "";
   };

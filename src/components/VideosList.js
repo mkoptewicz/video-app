@@ -4,6 +4,7 @@ import List from "./icons/List";
 import Grid from "./icons/Grid";
 import ListViewDetails from "./ListViewDetails";
 import GridViewDetails from "./GridViewDetails";
+import Loader from "./UI/Loader";
 
 const VideosList = ({
   videos,
@@ -13,6 +14,7 @@ const VideosList = ({
   onSort,
   onFilter,
   filterIsActive,
+  isLoading,
 }) => {
   const [displayMode, setDisplayMode] = useState("grid");
   const sortRef = useRef();
@@ -98,10 +100,13 @@ const VideosList = ({
             </p>
           )}
         </div>
-
-        <Row>
-          {displayMode === "grid" ? contentDisplayGrid : contentDisplayList}
-        </Row>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Row>
+            {displayMode === "grid" ? contentDisplayGrid : contentDisplayList}
+          </Row>
+        )}
       </Container>
     </section>
   );

@@ -13,7 +13,7 @@ function App() {
   const [addedVideos, setAddedVideos] = useState([]);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [filterIsActive, setFilterIsActive] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [videosPerPage, setVideosPerPage] = useState(8);
@@ -32,6 +32,7 @@ function App() {
   }, [addedVideos]);
 
   const addVideoHandler = async (videoId, videoType) => {
+    setIsLoading(true);
     const endpoints = {
       youtube: `/.netlify/functions/youtube?id=${videoId}`,
       vimeo: `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`,
@@ -41,6 +42,7 @@ function App() {
       setError("");
 
       if (addedVideos.some(vid => vid.id === videoId)) {
+        setIsLoading(false);
         setIsDuplicate(true);
         return;
       }
@@ -65,7 +67,7 @@ function App() {
         "We couldn't find the video. Make sure your link/Id and site type is correct or try again later"
       );
     }
-
+    setIsLoading(false);
     setIsDuplicate(false);
   };
 
@@ -151,7 +153,7 @@ function App() {
             isDuplicate={isDuplicate}
             error={error}
           />
-          
+
           <VideosList
             videos={currentVideos}
             onDelete={deleteVideoHandler}
@@ -161,6 +163,7 @@ function App() {
             onVideosPerPage={videosPerPageHandler}
             onFilter={toggleFilterHandler}
             filterIsActive={filterIsActive}
+            isLoading={isLoading}
           />
           <div aria-live="polite">
             {addedVideos.length === 0 && (

@@ -30,9 +30,9 @@ function App() {
   }, [addedVideos]);
 
   const addVideoHandler = async (videoId, videoType) => {
-    
     const endpoints = {
       youtube: `/.netlify/functions/youtube?id=${videoId}`,
+      // youtube: `https://www.googleapis.com/youtube/v3/videos?id=${videoId}&key=${process.env.YOUTUBE_API_KEY}&part=snippet,contentDetails,statistics`,
       vimeo: `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`,
     };
 
@@ -46,13 +46,13 @@ function App() {
 
       const response = await fetch(`${endpoints[videoType]}`);
       console.log(response);
-
       if (!response.ok) {
         throw new Error(
           "We couldn't find the video. Make sure your link/Id is correct or try again later"
         );
       }
       const data = await response.json();
+
       const formatedVideoData = formatVideoData[videoType](data);
 
       const updatedVideos = [

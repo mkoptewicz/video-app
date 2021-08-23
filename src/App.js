@@ -44,7 +44,6 @@ function App() {
       }
 
       const response = await fetch(`${endpoints[videoType]}`);
-      console.log(response);
       if (!response.ok) {
         throw new Error(
           "We couldn't find the video. Make sure your link/Id is correct or try again later"
@@ -69,16 +68,14 @@ function App() {
   };
 
   const deleteVideoHandler = id => {
-    const isLast = id === addedVideos[addedVideos.length - 1].id;
-    const isOnlyOneOnPage = isLast && addedVideos.length % videosPerPage === 1;
-    const isLastFavorite = id === filteredVideos[filteredVideos.length - 1].id;
-    const isOnlyOneOnFilteredPage =
-      isLastFavorite && filteredVideos.length % videosPerPage === 1;
+    const isLast = filteredVideos[filteredVideos.length - 1].id;
+    const isOnlyOneOnPage =
+      isLast && filteredVideos.length % videosPerPage === 1;
 
     const updatedVideos = addedVideos.filter(vid => vid.id !== id);
     setAddedVideos(updatedVideos);
 
-    if (currentPage > 1 && (isOnlyOneOnPage || isOnlyOneOnFilteredPage)) {
+    if (currentPage > 1 && isOnlyOneOnPage) {
       setCurrentPage(prevPage => prevPage - 1);
     }
   };

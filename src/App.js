@@ -38,6 +38,7 @@ function App() {
     const endpoints = {
       youtube: `/.netlify/functions/youtube?id=${videoId}`,
       vimeo: `https://vimeo.com/api/oembed.json?url=https://vimeo.com/${videoId}`,
+      dailymotion: `https://api.dailymotion.com/video/${videoId}?fields=id,title,created_time,embed_url,likes_total,thumbnail_360_url,url,views_total`,
     };
 
     try {

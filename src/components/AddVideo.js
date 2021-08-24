@@ -17,7 +17,7 @@ const AddVideo = ({ onAddVideo, onLoadDemo, isDuplicate, error }) => {
 
     const videoType = videoTypeRef.current.value;
     const id = getIdFromInput[videoType](inputValue);
-    
+
     onAddVideo(id, videoType);
     inputRef.current.value = "";
   };
@@ -53,6 +53,7 @@ const AddVideo = ({ onAddVideo, onLoadDemo, isDuplicate, error }) => {
                 <Form.Select aria-label="Select the site" ref={videoTypeRef}>
                   <option value="youtube">YouTube</option>
                   <option value="vimeo">Vimeo</option>
+                  <option value="dailymotion">Dailymotion</option>
                 </Form.Select>
               </Form.Group>
             </Col>

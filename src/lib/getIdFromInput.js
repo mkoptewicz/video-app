@@ -10,8 +10,19 @@ const getVimeoId = input => {
   return +input;
 };
 
+const getDailymotionId = input => {
+  const string = input.match(
+    /^.+dailymotion.com\/(video|hub)\/([^_]+)[^#]*(#video=([^_&]+))?/
+  );
+  if (string !== null) {
+    return string[2].split("?")[0];
+  }
+  return input;
+};
+
 const getIdFromInput = {
   youtube: getYouTubeId,
   vimeo: getVimeoId,
+  dailymotion: getDailymotionId,
 };
 export default getIdFromInput;

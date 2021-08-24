@@ -28,10 +28,25 @@ const formatVimeoData = data => {
     isFavourite: false,
   };
 };
+const formatDailymotionData = data => {
+  return {
+    id: data.id,
+    type: "dailymotion",
+    name: data.title,
+    viewCount: data.views_total,
+    likeCount: data.likes_total,
+    link: data.url,
+    embedLink: data.embed_url,
+    publishedAt: data.created_time,
+    imageUrl: data.thumbnail_360_url,
+    isFavourite: false,
+  };
+};
 
 const formatVideoData = {
   youtube: formatYouTubeData,
   vimeo: formatVimeoData,
+  dailymotion: formatDailymotionData,
 };
 
 export default formatVideoData;

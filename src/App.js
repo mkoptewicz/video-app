@@ -76,7 +76,7 @@ function App() {
   };
 
   const deleteVideoHandler = id => {
-    const isLast = filteredVideos[filteredVideos.length - 1].id;
+    const isLast = id === filteredVideos[filteredVideos.length - 1].id;
     const isOnlyOneOnPage =
       isLast && filteredVideos.length % videosPerPage === 1;
 

@@ -20,7 +20,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [videosPerPage, setVideosPerPage] = useState(3);
 
-  const filteredVideos = filterIsActive
+  const displayedVideos = filterIsActive
     ? addedVideos.filter(vid => vid.isFavourite)
     : addedVideos;
 
@@ -76,9 +76,9 @@ function App() {
   };
 
   const deleteVideoHandler = id => {
-    const isLast = id === filteredVideos[filteredVideos.length - 1].id;
+    const isLast = id === displayedVideos[displayedVideos.length - 1].id;
     const isOnlyOneOnPage =
-      isLast && filteredVideos.length % videosPerPage === 1;
+      isLast && displayedVideos.length % videosPerPage === 1;
 
     const updatedVideos = addedVideos.filter(vid => vid.id !== id);
     setAddedVideos(updatedVideos);
@@ -133,12 +133,12 @@ function App() {
     setAddedVideos(sortedVideos);
   };
 
-  const loadDemoHandler = () => setAddedVideos(demoVideos);
+  const loadDemoHandler = () => setAddedVideos([...addedVideos, ...demoVideos]);
 
   //Pagination
   const indexOfLastVideo = currentPage * videosPerPage;
   const indexOfFirstVideo = indexOfLastVideo - videosPerPage;
-  const currentVideos = filteredVideos.slice(
+  const currentVideos = displayedVideos.slice(
     indexOfFirstVideo,
     indexOfLastVideo
   );
@@ -178,10 +178,10 @@ function App() {
             )}
           </div>
         </main>
-        {filteredVideos.length > videosPerPage && (
+        {displayedVideos.length > videosPerPage && (
           <VideoPagination
             videosPerPage={videosPerPage}
-            totalVideos={filteredVideos.length}
+            totalVideos={displayedVideos.length}
             currentPage={currentPage}
             onPaginate={paginateHandler}
           />

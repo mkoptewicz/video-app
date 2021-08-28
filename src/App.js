@@ -106,6 +106,7 @@ function App() {
 
   const deleteAllHandler = () => {
     setAddedVideos([]);
+    setCurrentPage(1);
   };
 
   const sortHandler = mode => {

@@ -21,7 +21,7 @@ const GridViewDetails = ({ video, onDelete, onFavourite }) => {
 
   return (
     <>
-      <Col xs="12" sm="6" md="4" lg="3">
+      <Col xs="12" sm="6" md="4" xl="3">
         <Card className="mb-3 shadow">
           <Card.Img
             src={video.imageUrl}

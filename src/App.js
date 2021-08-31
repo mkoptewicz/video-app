@@ -18,7 +18,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [videosPerPage, setVideosPerPage] = useState(3);
+  const [videosPerPage, setVideosPerPage] = useState(4);
 
   const displayedVideos = filterIsActive
     ? addedVideos.filter(vid => vid.isFavourite)

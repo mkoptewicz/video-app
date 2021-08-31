@@ -2,11 +2,37 @@
 
 Video-app lets the users keep their favourite videos from all the different sites in one place by pasting the link or the video's Id.
 
+Live version: https://eloquent-brattain-7a2cec.netlify.app/
+
 ## Installation
 
-Clone down this repository and then type npm install in the terminal.
+Clone down this repository and then type
+
+```bash
+ npm install
+```
+
+in the terminal.
+
 You will need node and npm installed globally on your machine.
 When the installation is complete type npm start. You can visit the app on localhost:3000.
+
+Adding Youtube videos on localhost won't be possible due to the API key being hidden. You can test the functionality using the live version from the link above or use your own API key this way:
+
+1. Create a .env file in the root of the project and type in it: YOUTUBE_API_KEY={your_api_key}
+2. You need to have netlify-cli installed globally
+
+```bash
+npm install netlify-cli -g
+```
+
+3. Run this command
+
+```bash
+netlify dev
+```
+
+4. Running the above command successfully will start a local development server on port 8888
 
 ## About the project
 

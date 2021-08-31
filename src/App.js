@@ -134,7 +134,7 @@ function App() {
     setAddedVideos(sortedVideos);
   };
 
-  const loadDemoHandler = () => setAddedVideos([...addedVideos, ...demoVideos]);
+  const loadDemoHandler = () => setAddedVideos(demoVideos);
 
   //Pagination
   const indexOfLastVideo = currentPage * videosPerPage;

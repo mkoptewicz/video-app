@@ -2,7 +2,7 @@
 
 Video-app lets the users keep their favourite videos from all the different sites in one place by pasting the link or the video's Id.
 
-Live version: https://eloquent-brattain-7a2cec.netlify.app/
+Live version: https://add-your-videos.netlify.app/
 
 ## Installation
 
